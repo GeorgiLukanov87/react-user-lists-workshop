@@ -84,7 +84,6 @@ export const UserSection = () => {
     return (
         <>
             <div className="table-wrapper">
-
                 {userAction.action === ActionTypes.Details &&
                     <UserDetail
                         user={userAction.user}
