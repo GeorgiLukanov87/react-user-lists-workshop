@@ -40,11 +40,18 @@ export const UserSection = () => {
     }
 
     const userCreateHandler = (userData) => {
-        userService.create(userData)
+        if (!userData.person || !userData.phone){
+            const saveBtn = document.getElementById('action-save')
+            saveBtn.disabled = true
+            alert('Please fill data inputs.')
+        }else{
+            userService.create(userData)
             .then(user => {
                 setUsers(oldUsers => [...oldUsers, user])
                 closeHandler();
             });
+        }
+
     }
 
     const userEditHandler = (e) => {

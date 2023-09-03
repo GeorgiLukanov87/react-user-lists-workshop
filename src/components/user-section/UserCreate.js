@@ -81,7 +81,7 @@ export const UserCreate = ({
                         </div>
 
                         <div id="form-actions">
-                            <button id="action-save" className="btn" type="submit">Add User</button>
+                            <button id="action-save" className="btn" type="submit" disabled={errors.firstName || errors.phoneNumber} >Add User</button>
                             <button id="action-cancel" className="btn" type="button" onClick={onClose}>
                                 Cancel
                             </button>
