@@ -39,22 +39,12 @@ export const UserSection = () => {
         setUserAction({ user: null, action: null })
     }
 
-    const userCreateHandler = (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const userData = Object.fromEntries(formData)
-        const newUserData = {
-            person: userData.firstName,
-            phone: userData.phoneNumber,
-        }
-
-        userService.create(newUserData)
+    const userCreateHandler = (userData) => {
+        userService.create(userData)
             .then(user => {
-                setUsers(oldUsers => [
-                    ...oldUsers, user
-                ])
+                setUsers(oldUsers => [...oldUsers, user])
                 closeHandler();
-            })
+            });
     }
 
     const userEditHandler = (e) => {

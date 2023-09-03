@@ -1,7 +1,31 @@
+import { useState } from "react";
+
 export const UserCreate = ({
     onClose,
-    onUserCreate
+    onUserCreate,
+
 }) => {
+    const [values, setValues] = useState({
+        firstName: '',
+        phoneNumber: '',
+    });
+
+    const changeHandler = (e) => {
+        setValues(state => ({
+            ...state,
+            [e.target.name]: e.target.value
+        }))
+    }
+
+    const submitHandler = (e) => {
+        e.preventDefault();
+        const userData = {
+            person: values.firstName,
+            phone: values.phoneNumber,
+        }
+        onUserCreate(userData);
+    }
+
     return (
         <div className="overlay">
             <div className="backdrop" onClick={onClose}></div>
@@ -19,14 +43,14 @@ export const UserCreate = ({
                         </button>
                     </header>
 
-                    <form onSubmit={onUserCreate}>
+                    <form onSubmit={submitHandler}>
                         <div className="form-row">
 
                             <div className="form-group">
                                 <label htmlFor="firstName">First name</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-user"></i></span>
-                                    <input id="firstName" name="firstName" type="text" />
+                                    <input id="firstName" name="firstName" type="text" value={values.firstName} onChange={changeHandler} />
                                 </div>
                                 <p className="form-error">
                                     First name should be at least 3 characters long!
@@ -40,7 +64,7 @@ export const UserCreate = ({
                                 <label htmlFor="phoneNumber">Phone number</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-phone"></i></span>
-                                    <input id="phoneNumber" name="phoneNumber" type="text" />
+                                    <input id="phoneNumber" name="phoneNumber" type="text" value={values.phoneNumber} onChange={changeHandler} />
                                 </div>
                                 <p className="form-error">Phone number is not valid!</p>
                             </div>
