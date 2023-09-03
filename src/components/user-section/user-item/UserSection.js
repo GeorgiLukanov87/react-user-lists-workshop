@@ -22,7 +22,7 @@ export const UserSection = () => {
     useEffect(() => {
         userService.getAll()
             .then(users => setUsers(users))
-    }, [users]);
+    }, []);
 
 
     const userActionHandler = (userId, actionType) => {
@@ -61,14 +61,27 @@ export const UserSection = () => {
         }
 
         userService.edit(newUserData)
-            .then(closeHandler());
+        .then(updatedUser => {
+            const userIndex = users.findIndex(user => user._id === userId);
+            
+            if (userIndex !== -1) {
+                const updatedUsers = [...users];
+                updatedUsers[userIndex] = updatedUser;
+                setUsers(updatedUsers);
+            }
+            closeHandler();
+        });
     }
 
     const userDeleteHandler = () => {
         const userId = userAction.user._id
         
         userService.remove(userId)
-            .then(closeHandler())
+        .then(() => {
+            const updatedUsers = users.filter(user => user._id !== userId);
+            setUsers(updatedUsers);
+            closeHandler();
+        });
     }
 
     return (
