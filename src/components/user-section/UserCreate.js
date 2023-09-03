@@ -10,6 +10,8 @@ export const UserCreate = ({
         phoneNumber: '',
     });
 
+    const [errors, setErrors] = useState({});
+
     const changeHandler = (e) => {
         setValues(state => ({
             ...state,
@@ -24,6 +26,13 @@ export const UserCreate = ({
             phone: values.phoneNumber,
         }
         onUserCreate(userData);
+    }
+
+    const minLenghtValidator = (e, limit) => {
+        setErrors(state => ({
+            ...state,
+            [e.target.name]: values[e.target.name].length < limit
+        }))
     }
 
     return (
@@ -50,11 +59,12 @@ export const UserCreate = ({
                                 <label htmlFor="firstName">First name</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-user"></i></span>
-                                    <input id="firstName" name="firstName" type="text" value={values.firstName} onChange={changeHandler} />
+                                    <input id="firstName" name="firstName" type="text" value={values.firstName} onChange={changeHandler} onBlur={(e) => minLenghtValidator(e, 3)} />
                                 </div>
-                                <p className="form-error">
+
+                                {errors.firstName && <p className="form-error">
                                     First name should be at least 3 characters long!
-                                </p>
+                                </p>}
                             </div>
 
                         </div>
@@ -64,9 +74,9 @@ export const UserCreate = ({
                                 <label htmlFor="phoneNumber">Phone number</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-phone"></i></span>
-                                    <input id="phoneNumber" name="phoneNumber" type="text" value={values.phoneNumber} onChange={changeHandler} />
+                                    <input id="phoneNumber" name="phoneNumber" type="text" value={values.phoneNumber} onChange={changeHandler} onBlur={(e) => minLenghtValidator(e, 10)} />
                                 </div>
-                                <p className="form-error">Phone number is not valid!</p>
+                                {errors.phoneNumber && <p className="form-error">Phone number is not valid!</p>}
                             </div>
                         </div>
 
